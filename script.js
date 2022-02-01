@@ -2,7 +2,7 @@ let pokeList = []
 
 window.onload = function () {
 
-  const POKE_API = 'https://pokeapi.co/api/v2/pokemon/?offset=0&limit=1118'
+  const POKE_API = 'https://pokeapi.co/api/v2/pokemon/?offset=0&limit=150'
 
   // traduction de l'objet reçu en objet javascript
 
@@ -19,12 +19,15 @@ window.onload = function () {
 
 function generateCard() {
 
+  console.log('pokeList :>> ', pokeList);
+
   pokeList.forEach(pokemon => {
 
     fetch(pokemon.url)
       .then(x => x.json())
       .then(pokeDetails => {
         // Création des éléments HTML
+        const divCol = document.createElement('div')
         const divCard = document.createElement('div')
         const imgCard = document.createElement('img')
         const divBodyCard = document.createElement('div')
@@ -32,12 +35,14 @@ function generateCard() {
         const pCard = document.createElement('p')
 
         // Insérer les éléments dans les autres
+        divCol.appendChild(divCard)
         divCard.appendChild(imgCard)
         divCard.appendChild(divBodyCard)
         divBodyCard.appendChild(titleCard)
         divBodyCard.appendChild(pCard)
 
         // Paramétrer les classes
+        divCard.classList.add('col-md-3', 'mb-3')
         divCard.classList.add('card')
         imgCard.classList.add('card-img-top')
         divBodyCard.classList.add('card-body')
@@ -45,7 +50,6 @@ function generateCard() {
         pCard.classList.add('card-text')
 
         // Paramétrer les attributs
-        divCard.style.width = '18rem'
         imgCard.setAttribute('src', pokeDetails.sprites.front_default)
         imgCard.setAttribute('alt', pokeDetails.name)
 
