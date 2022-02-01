@@ -19,8 +19,6 @@ window.onload = function () {
 
 function generateCard() {
 
-  console.log('pokeList :>> ', pokeList);
-
   pokeList.forEach(pokemon => {
 
     fetch(pokemon.url)
