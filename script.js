@@ -28,6 +28,18 @@ async function getPokeDetailsJSON(pokemon) {
     .then(pokeDetails => pokeDetails)
 }
 
+async function getAllPokeDetailsJSON(url) {
+  return fetch(url)
+    .then(x => x.json())
+    .then(allDetails => allDetails)
+}
+
+async function getTypes(url) {
+  return fetch(url)
+    .then(x => x.json())
+    .then(types => types)
+}
+
 
 async function generateCard() {
 
@@ -49,7 +61,7 @@ async function generateCard() {
     divBodyCard.appendChild(pCard)
 
     // Paramétrer les classes
-    divCard.classList.add('col-md-3', 'mb-3')
+    divCard.classList.add('col-md-2', 'mb-3')
     divCard.classList.add('card')
     imgCard.classList.add('card-img-top')
     divBodyCard.classList.add('card-body')
@@ -61,8 +73,13 @@ async function generateCard() {
     imgCard.setAttribute('alt', pokemon.name)
 
     // Paramétrer le texte des éléments
-    titleCard.innerText = pokemon.details.id + '# ' + pokemon.details.name
-    pCard.innerText = ''
+    titleCard.innerHTML = pokemon.details.id + '# <br>'
+
+    pokemon.allDetails.names.forEach(name => {
+      if (name.language.name == 'fr') titleCard.innerHTML += name.name 
+    });
+
+    pCard.innerText = 'item'
 
     // Ajouter la card à la pokelist
     const pokeDiv = document.getElementById('pokeDiv')
@@ -89,7 +106,12 @@ async function initPokeList() {
 
   for (const pokemon of pokeJson.results) {
     const pokeDetails = await getPokeDetailsJSON(pokemon)
-    pokeList.push({ name: pokemon.name, url: pokemon.url, details: pokeDetails })
+    const allDetails = await getAllPokeDetailsJSON(pokeDetails.species.url)
+    
+    pokeList.push(
+      { name: pokemon.name, url: pokemon.url, details: pokeDetails, allDetails: allDetails }
+    )
+
   }
 }
 
