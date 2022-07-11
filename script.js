@@ -8,7 +8,7 @@ filterBtn.addEventListener('click', (event) => {
   changeLimitFilter()
 })
 
-let limit = limitFilter.value
+let limit = limitFilter.value == "" ? 151 : limitFilter.value
 
 window.onload = async function () {
   refreshCards()
